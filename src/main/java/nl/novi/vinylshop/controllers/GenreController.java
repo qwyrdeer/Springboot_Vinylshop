@@ -2,7 +2,7 @@ package nl.novi.vinylshop.controllers;
 
 import nl.novi.vinylshop.helpers.UrlHelper;
 import nl.novi.vinylshop.entities.Genre;
-import nl.novi.vinylshop.services.GenreServiceInterface;
+import nl.novi.vinylshop.services.GenreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,42 +20,42 @@ import java.util.List;
 @RequestMapping("/genres")
 public class GenreController {
 
-    private final GenreServiceInterface genreServiceInterface;
+    private final GenreService genreService;
     private final UrlHelper urlHelper;
 
-    public GenreController(GenreServiceInterface genreServiceInterface, UrlHelper urlHelper) {
-        this.genreServiceInterface = genreServiceInterface;
+    public GenreController(GenreService genreService, UrlHelper urlHelper) {
+        this.genreService = genreService;
         this.urlHelper = urlHelper;
 
     }
 
     @GetMapping
     public ResponseEntity<List<Genre>> getAllGenres() {
-        var genres = genreServiceInterface.findAllGenres();
+        var genres = genreService.findAllGenres();
         return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Genre> getGenreById(@PathVariable Long id) {
-        var genre = genreServiceInterface.findGenreById(id);
+        var genre = genreService.findGenreById(id);
         return new ResponseEntity<>(genre, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Genre> createGenre(@RequestBody Genre genreInput) {
-        var newGenre = genreServiceInterface.createGenre(genreInput);
+        var newGenre = genreService.createGenre(genreInput);
         return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newGenre.getId())).body(newGenre);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Genre> updateGenre(@PathVariable Long id, @RequestBody Genre genreInput) {
-        var updatedGenre = genreServiceInterface.updateGenre(id, genreInput);
+        var updatedGenre = genreService.updateGenre(id, genreInput);
         return new ResponseEntity<>(updatedGenre, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
-        genreServiceInterface.deleteGenre(id);
+        genreService.deleteGenre(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

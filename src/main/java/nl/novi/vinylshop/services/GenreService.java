@@ -19,7 +19,7 @@ import java.util.List;
  * - deleteGenre
  */
 @Service
-public class GenreService implements GenreServiceInterface {
+public class GenreService {
 
 
     private final ArrayList<Genre> genreRepository;
@@ -33,7 +33,6 @@ public class GenreService implements GenreServiceInterface {
      * Als de mock-database leeg is, wordt een lege lijst gertourneerd.
      * @return
      */
-    @Override
     public List<Genre> findAllGenres() {
         return genreRepository;
     }
@@ -44,7 +43,6 @@ public class GenreService implements GenreServiceInterface {
      * @param id
      * @return
      */
-    @Override
     public Genre findGenreById(Long id) {
         return genreRepository.stream().filter(g -> g.getId().equals(id)).findFirst().orElseThrow(()->new IndexOutOfBoundsException("Genre met ID " + id + " niet gevonden"));
     }
@@ -54,7 +52,6 @@ public class GenreService implements GenreServiceInterface {
      * @param genre Het te creëren en op te slaan genre. Moet niet `null` zijn.
      * @return Het opgeslagen Genre-object met het toegekende id.
      */
-    @Override
     public Genre createGenre(Genre genre) {
         genre.setId(findNextId(genreRepository));
         genreRepository.add(genre);
@@ -68,16 +65,12 @@ public class GenreService implements GenreServiceInterface {
      * @param genreInput
      * @return
      */
-    @Override
     public Genre updateGenre(Long id, Genre genreInput){
         Genre existingGenreEntity = findGenreById(id);
 
         existingGenreEntity.setName(genreInput.getName());
         existingGenreEntity.setDescription(genreInput.getDescription());
 
-        //refresh
-        genreRepository.remove(existingGenreEntity);
-        genreRepository.add(existingGenreEntity);
         return existingGenreEntity;
     }
 
@@ -85,7 +78,6 @@ public class GenreService implements GenreServiceInterface {
      * Verwijderd een Genre uit de mock-database op basis van het id
      * @param id
      */
-    @Override
     public void deleteGenre(Long id) {
         try{
         Genre existingGenreEntity = findGenreById(id);
