@@ -1,11 +1,14 @@
 package nl.novi.vinylshop.services;
 
 import nl.novi.vinylshop.entities.Genre;
+import nl.novi.vinylshop.entities.GenreEntity;
+import nl.novi.vinylshop.repository.GenreRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Deze GenreService is een tijdelijke oplossing om een echte GenreService na te bootsen.
@@ -22,10 +25,10 @@ import java.util.List;
 public class GenreService {
 
 
-    private final ArrayList<Genre> genreRepository;
+    private final GenreRepository genreRepository;
 
-    public GenreService() {
-        genreRepository = new ArrayList<>();
+    public GenreService(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
     }
 
     /**
@@ -33,8 +36,8 @@ public class GenreService {
      * Als de mock-database leeg is, wordt een lege lijst gertourneerd.
      * @return
      */
-    public List<Genre> findAllGenres() {
-        return genreRepository;
+    public List<GenreEntity> findAllGenres() {
+        return genreRepository.findAll();
     }
 
     /**
@@ -43,8 +46,12 @@ public class GenreService {
      * @param id
      * @return
      */
-    public Genre findGenreById(Long id) {
-        return genreRepository.stream().filter(g -> g.getId().equals(id)).findFirst().orElseThrow(()->new IndexOutOfBoundsException("Genre met ID " + id + " niet gevonden"));
+    public GenreEntity findGenreById(Long id) {
+        Optional<GenreEntity> genreEntity = genreRepository.findById(id);
+        if (genreEntity.isPresent()) {
+            return genreEntity.get();
+        }
+        return null;
     }
 
     /**
@@ -52,10 +59,9 @@ public class GenreService {
      * @param genre Het te creëren en op te slaan genre. Moet niet `null` zijn.
      * @return Het opgeslagen Genre-object met het toegekende id.
      */
-    public Genre createGenre(Genre genre) {
-        genre.setId(findNextId(genreRepository));
-        genreRepository.add(genre);
-        return genre;
+    public GenreEntity createGenre(GenreEntity genreEntity) {
+        genreRepository.save(genreEntity);
+        return genreEntity;
 
     }
 
@@ -65,12 +71,11 @@ public class GenreService {
      * @param genreInput
      * @return
      */
-    public Genre updateGenre(Long id, Genre genreInput){
-        Genre existingGenreEntity = findGenreById(id);
-
+    public GenreEntity updateGenre(Long id, GenreEntity genreInput){
+        GenreEntity existingGenreEntity = findGenreById(id);
         existingGenreEntity.setName(genreInput.getName());
         existingGenreEntity.setDescription(genreInput.getDescription());
-
+        genreRepository.save(existingGenreEntity);
         return existingGenreEntity;
     }
 
@@ -80,27 +85,10 @@ public class GenreService {
      */
     public void deleteGenre(Long id) {
         try{
-        Genre existingGenreEntity = findGenreById(id);
-        genreRepository.remove(existingGenreEntity);
-        } catch (IndexOutOfBoundsException _) {
+        GenreEntity existingGenreEntity = findGenreById(id);
+        genreRepository.delete(existingGenreEntity);
+        } catch (IndexOutOfBoundsException ex) {
         }
 
     }
-
-    /**
-     * Een database maakt automatisch de volgende, unieke Primary Key voor je.
-     * Deze helper-methode bootst die functionaliteit na in de ArrayList.
-     */
-    private Long findNextId(ArrayList<Genre> genreRepository) {
-        Long highest = 0L;
-        if(!genreRepository.isEmpty()){
-            for(Genre genre : genreRepository){
-                if(genre.getId() > highest){
-                    highest = genre.getId();
-                }
-            }
-        }
-        return highest+1;
-    }
-
 }
