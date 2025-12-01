@@ -1,12 +1,9 @@
 package nl.novi.vinylshop.services;
 
-import nl.novi.vinylshop.entities.Genre;
 import nl.novi.vinylshop.entities.GenreEntity;
-import nl.novi.vinylshop.repository.GenreRepository;
-import org.springframework.lang.NonNull;
+import nl.novi.vinylshop.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
