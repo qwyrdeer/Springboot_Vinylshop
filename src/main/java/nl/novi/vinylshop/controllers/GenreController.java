@@ -2,7 +2,6 @@ package nl.novi.vinylshop.controllers;
 
 import nl.novi.vinylshop.entities.GenreEntity;
 import nl.novi.vinylshop.helpers.UrlHelper;
-import nl.novi.vinylshop.entities.Genre;
 import nl.novi.vinylshop.services.GenreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
