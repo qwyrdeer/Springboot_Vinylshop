@@ -27,6 +27,7 @@ public abstract class BaseEntity {
         return id;
     }
 
+    @Column(name = "edited_date")
     public LocalDate getEditDate() {
         return editDate;
     }
@@ -35,6 +36,7 @@ public abstract class BaseEntity {
         this.editDate = editDate;
     }
 
+    @Column(name = "created_date")
     public LocalDate getCreateDate() {
         return createDate;
     }

@@ -13,10 +13,7 @@ public class AlbumRequestDTO {
     @Size (min = 1877, max = 2100)
     private int releaseYear;
 
-    @Id
     private Long genreId;
-
-    @Id
     private Long publisherId;
 
     public String getTitle() {
@@ -50,4 +47,5 @@ public class AlbumRequestDTO {
     public void setPublisherId(Long publisherId) {
         this.publisherId = publisherId;
     }
+
 }

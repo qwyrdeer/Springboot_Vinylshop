@@ -3,13 +3,14 @@ package nl.novi.vinylshop.controllers;
 
 import nl.novi.vinylshop.dtos.album.AlbumRequestDTO;
 import nl.novi.vinylshop.dtos.album.AlbumResponseDTO;
+import nl.novi.vinylshop.dtos.genre.GenreResponseDTO;
 import nl.novi.vinylshop.helpers.UrlHelper;
 import nl.novi.vinylshop.services.AlbumService;
-import nl.novi.vinylshop.services.ArtistService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/albums")
@@ -20,6 +21,12 @@ public class AlbumController {
     public AlbumController(AlbumService albumService, UrlHelper urlHelper) {
         this.albumService = albumService;
         this.urlHelper = urlHelper;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AlbumResponseDTO>> getAllAlbums() {
+        var albums = albumService.findAllAlbums();
+        return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

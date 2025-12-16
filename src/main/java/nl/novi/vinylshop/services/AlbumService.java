@@ -6,11 +6,16 @@ import nl.novi.vinylshop.entities.AlbumEntity;
 import nl.novi.vinylshop.mappers.AlbumDTOMapper;
 import nl.novi.vinylshop.repositories.AlbumRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RestController
+@RequestMapping("/albums")
 public class AlbumService {
     private final AlbumRepository albumRepository;
     private final AlbumDTOMapper albumMapper;
@@ -18,10 +23,6 @@ public class AlbumService {
     public AlbumService(AlbumRepository albumRepository, AlbumDTOMapper albumMapper){
         this.albumRepository = albumRepository;
         this.albumMapper = albumMapper;
-    }
-
-    public List<AlbumResponseDTO> findAllAlbums() {
-        return albumMapper.mapToDto(albumRepository.findAll());
     }
 
     public AlbumResponseDTO findAlbumById(Long id) {
@@ -60,4 +61,10 @@ public class AlbumService {
         }
     }
 
+    public List<AlbumResponseDTO> findAllAlbums() {
+        List<AlbumEntity> albumEntities = albumRepository.findAll();
+        return albumEntities.stream()
+                .map(albumMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 }

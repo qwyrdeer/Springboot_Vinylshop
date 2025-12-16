@@ -1,5 +1,6 @@
 package nl.novi.vinylshop.controllers;
 
+import nl.novi.vinylshop.dtos.artist.ArtistRequestDTO;
 import nl.novi.vinylshop.dtos.artist.ArtistResponseDTO;
 import nl.novi.vinylshop.helpers.UrlHelper;
 import nl.novi.vinylshop.services.ArtistService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/artists")
 public class ArtistController {
     private final ArtistService artistService;
     private final UrlHelper urlHelper;
@@ -33,14 +36,14 @@ public class ArtistController {
     }
 
     @PostMapping
-    public ResponseEntity<ArtistResponseDTO> createArtist(@RequestBody ArtistResponseDTO artistInput) {
+    public ResponseEntity<ArtistResponseDTO> createArtist(@RequestBody ArtistRequestDTO artistInput) {
         var newArtist = artistService.createArtist(artistInput);
         return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newArtist.getId())).body(newArtist);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtistResponseDTO> updateArtist(@PathVariable Long id, @RequestBody ArtistResponseDTO artistInput) {
-        var updatedArtist = artistService.updatedArtist(id, artistInput);
+    public ResponseEntity<ArtistResponseDTO> updateArtist(@PathVariable Long id, @RequestBody ArtistRequestDTO artistInput) {
+        var updatedArtist = artistService.updateArtist(id, artistInput);
         return new ResponseEntity<>(updatedArtist, HttpStatus.OK);
     }
 

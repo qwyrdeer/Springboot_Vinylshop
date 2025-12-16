@@ -1,11 +1,14 @@
 package nl.novi.vinylshop.dtos.album;
 
+import java.util.List;
+
 public class AlbumResponseDTO {
     private Long id;
     private String name;
     private int releaseYear;
     private String genre;
     private String publisher;
+    private List<String> artists;
 
     public Long getId() {
         return id;
@@ -15,11 +18,11 @@ public class AlbumResponseDTO {
         this.id = id;
     }
 
-    public String getName() {
+    public String getTitle() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setTitle(String name) {
         this.name = name;
     }
 
@@ -45,5 +48,13 @@ public class AlbumResponseDTO {
 
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public List<String> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<String> artists) {
+        this.artists = artists;
     }
 }

@@ -26,8 +26,8 @@ public class ArtistService {
         return artistMapper.mapToDto(artistRepository.findAll());
     }
 
-    public ArtistResponseDTO findArtistByID(Long id) {
-        Optional<ArtistEntity> artistEntity = artistRepository.findById();
+    public ArtistResponseDTO findArtistById(Long id) {
+        Optional<ArtistEntity> artistEntity = artistRepository.findById(id);
         if (artistEntity.isPresent()) {
             return artistMapper.mapToDto(artistEntity.get());
         }

@@ -1,18 +1,14 @@
 package nl.novi.vinylshop.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="Genres")
+@Table(name="genres")
 public class GenreEntity extends BaseEntity {
-//    @Column(nullable=false)
+
+    @Column(nullable=false)
     private String name;
     private String description;
-
-    @OneToOne (mappedBy = "genre")
-    private AlbumEntity album;
 
     public String getName() {
         return name;
