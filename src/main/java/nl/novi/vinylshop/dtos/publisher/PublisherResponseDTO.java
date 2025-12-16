@@ -1,21 +1,18 @@
-package nl.novi.vinylshop.entities;
+package nl.novi.vinylshop.dtos.publisher;
 
-import jakarta.persistence.*;
+public class PublisherResponseDTO {
+    private Long id;
+    private String name;
+    private String address;
+    private String contactDetails;
 
-import java.util.HashSet;
-import java.util.Set;
+    public Long getId() {
+        return id;
+    }
 
-@Entity
-@Table(name="Publishers")
-public class PublisherEntity extends BaseEntity {
-        @Column(nullable=false)
-        private String name;
-        private String address;
-        private String contactDetails;
-
-    @OneToMany(mappedBy = "publisher")
-    private Set<AlbumEntity> albums = new HashSet<>();
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -40,5 +37,4 @@ public class PublisherEntity extends BaseEntity {
     public void setContactDetails(String contactDetails) {
         this.contactDetails = contactDetails;
     }
-
 }

@@ -1,6 +1,7 @@
 package nl.novi.vinylshop.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -9,6 +10,9 @@ public class GenreEntity extends BaseEntity {
 //    @Column(nullable=false)
     private String name;
     private String description;
+
+    @OneToOne (mappedBy = "genre")
+    private AlbumEntity album;
 
     public String getName() {
         return name;
