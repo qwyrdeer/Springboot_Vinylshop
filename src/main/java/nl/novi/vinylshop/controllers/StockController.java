@@ -1,7 +1,12 @@
 package nl.novi.vinylshop.controllers;
 
+import nl.novi.vinylshop.dtos.genre.GenreRequestDTO;
+import nl.novi.vinylshop.dtos.genre.GenreResponseDTO;
+import nl.novi.vinylshop.dtos.stock.StockRequestDTO;
+import nl.novi.vinylshop.dtos.stock.StockResponseDTO;
 import nl.novi.vinylshop.helpers.UrlHelper;
 import nl.novi.vinylshop.services.StockService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +23,13 @@ public class StockController {
         this.urlHelper = urlHelper;
     }
 
-//    We hebben al een functionaliteit om een Stock aan een Album toe te voegen.
-//    Dat is namelijk de POST mapping in de StockController.
+
+    @PostMapping
+    public ResponseEntity<StockResponseDTO> createStock(@RequestBody StockRequestDTO stockInput) {
+        var newStock = stockService.createStock(stockInput);
+        return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newStock.getId())).body(newStock);
+    }
+
 
 //    @GetMapping
 

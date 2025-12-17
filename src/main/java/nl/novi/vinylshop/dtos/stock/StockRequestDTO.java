@@ -2,6 +2,8 @@ package nl.novi.vinylshop.dtos.stock;
 
 public class StockRequestDTO {
 
+    private Long id;
+    private int quantity;
     private String condition;
     private double price;
 
@@ -19,5 +21,13 @@ public class StockRequestDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

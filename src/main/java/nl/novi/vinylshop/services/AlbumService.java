@@ -1,9 +1,12 @@
 package nl.novi.vinylshop.services;
 
+import jakarta.persistence.EntityNotFoundException;
+import nl.novi.vinylshop.dtos.album.AlbumExtendedResponseDTO;
 import nl.novi.vinylshop.dtos.album.AlbumRequestDTO;
 import nl.novi.vinylshop.dtos.album.AlbumResponseDTO;
 import nl.novi.vinylshop.entities.AlbumEntity;
 import nl.novi.vinylshop.mappers.AlbumDTOMapper;
+import nl.novi.vinylshop.mappers.AlbumExtendedDTOMapper;
 import nl.novi.vinylshop.repositories.AlbumRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,24 +21,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/albums")
 public class AlbumService {
     private final AlbumRepository albumRepository;
-    private final AlbumDTOMapper albumMapper;
+    private final AlbumExtendedDTOMapper albumMapper;
 
-    public AlbumService(AlbumRepository albumRepository, AlbumDTOMapper albumMapper){
+    public AlbumService(AlbumRepository albumRepository, AlbumExtendedDTOMapper albumMapper) {
         this.albumRepository = albumRepository;
         this.albumMapper = albumMapper;
     }
 
-    public AlbumResponseDTO findAlbumById(Long id) {
-        Optional<AlbumEntity> albumEntity = albumRepository.findById(id);
-        if (albumEntity.isPresent()) {
-            return albumMapper.mapToDto(albumEntity.get());
-        } return null;
+    public AlbumExtendedResponseDTO findAlbumById(Long id) {
+        AlbumEntity album = albumRepository.findById(id)
+                .orElseThrow();
+        return albumMapper.mapToExtendedDto(album);
     }
 
     public AlbumResponseDTO createAlbum(AlbumRequestDTO albumRequestDTO) {
         AlbumEntity albumEntity = albumMapper.mapToEntity(albumRequestDTO);
         albumEntity = albumRepository.save(albumEntity);
-        return albumMapper.mapToDto(albumEntity);
+        return albumMapper.mapToExtendedDto(albumEntity);
     }
 
     private AlbumEntity getAlbumEntity(Long id){
@@ -50,7 +52,7 @@ public class AlbumService {
         existingAlbumEntity.setTitle(albumInput.getTitle());
         existingAlbumEntity.setReleaseYear(albumInput.getReleaseYear());
         albumRepository.save(existingAlbumEntity);
-        return albumMapper.mapToDto(existingAlbumEntity);
+        return albumMapper.mapToExtendedDto(existingAlbumEntity);
     }
 
     public void deleteAlbum(Long id) {
@@ -64,7 +66,7 @@ public class AlbumService {
     public List<AlbumResponseDTO> findAllAlbums() {
         List<AlbumEntity> albumEntities = albumRepository.findAll();
         return albumEntities.stream()
-                .map(albumMapper::mapToDto)
+                .map(albumMapper::mapToExtendedDto)
                 .collect(Collectors.toList());
     }
 }

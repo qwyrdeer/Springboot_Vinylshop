@@ -5,16 +5,21 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "stock")
 public class StockEntity extends BaseEntity {
+    private int quantity;
     private String condition;
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "album_id", referencedColumnName = "id")
+    @JoinColumn(name = "album_id")
     private AlbumEntity album;
 
     public StockEntity(String condition, double price) {
         this.condition = condition;
         this.price = price;
+    }
+
+    public StockEntity() {
+
     }
 
     public String getCondition() {
@@ -31,5 +36,13 @@ public class StockEntity extends BaseEntity {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

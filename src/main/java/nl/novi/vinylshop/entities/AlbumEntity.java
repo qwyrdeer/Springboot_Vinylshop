@@ -2,7 +2,9 @@ package nl.novi.vinylshop.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,8 +17,8 @@ import java.util.Set;
     @JoinColumn (name = "publisher_id")
     private PublisherEntity publisher;
 
-    @OneToMany(mappedBy = "album")
-    private Set<StockEntity> stockItems = new HashSet<>();
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
+    private List<StockEntity> stockItems = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -51,11 +53,11 @@ import java.util.Set;
         this.publisher = publisher;
     }
 
-    public Set<StockEntity> getStockItems() {
+    public List<StockEntity> getStockItems() {
         return stockItems;
     }
 
-    public void setStockItems(Set<StockEntity> stockItems) {
+    public void setStockItems(List<StockEntity> stockItems) {
         this.stockItems = stockItems;
     }
 

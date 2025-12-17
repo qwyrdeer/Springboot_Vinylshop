@@ -1,6 +1,7 @@
 package nl.novi.vinylshop.controllers;
 
 
+import nl.novi.vinylshop.dtos.album.AlbumExtendedResponseDTO;
 import nl.novi.vinylshop.dtos.album.AlbumRequestDTO;
 import nl.novi.vinylshop.dtos.album.AlbumResponseDTO;
 import nl.novi.vinylshop.dtos.genre.GenreResponseDTO;
@@ -30,9 +31,9 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumResponseDTO> getAlbumbyId(@PathVariable Long id) {
-        var album = albumService.findAlbumById(id);
-        return new ResponseEntity<>(album, HttpStatus.OK);
+    public ResponseEntity<AlbumExtendedResponseDTO> getAlbumById(@PathVariable Long id) {
+        AlbumExtendedResponseDTO album = albumService.findAlbumById(id);
+        return ResponseEntity.ok(album);
     }
 
     @PostMapping

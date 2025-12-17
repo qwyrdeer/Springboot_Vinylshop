@@ -1,5 +1,6 @@
 package nl.novi.vinylshop.mappers;
 
+import nl.novi.vinylshop.dtos.album.AlbumExtendedResponseDTO;
 import nl.novi.vinylshop.dtos.album.AlbumRequestDTO;
 import nl.novi.vinylshop.dtos.album.AlbumResponseDTO;
 import nl.novi.vinylshop.entities.AlbumEntity;
@@ -22,6 +23,7 @@ public class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, AlbumRequestD
         if (album.getGenre() != null) {
             dto.setGenre(album.getGenre().getName());
         }
+        // getId zou beter zijn.
 
         if (album.getPublisher() != null) {
             dto.setPublisher(album.getPublisher().getName());
@@ -52,5 +54,9 @@ public class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, AlbumRequestD
         entity.setTitle(albumModel.getTitle());
         entity.setReleaseYear(albumModel.getReleaseYear());
         return entity;
+    }
+
+    public AlbumExtendedResponseDTO mapToExtendedDto(AlbumEntity album) {
+        return null;
     }
 }
