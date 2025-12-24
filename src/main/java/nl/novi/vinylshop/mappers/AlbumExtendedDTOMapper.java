@@ -2,7 +2,6 @@ package nl.novi.vinylshop.mappers;
 
 import nl.novi.vinylshop.dtos.album.AlbumExtendedResponseDTO;
 import nl.novi.vinylshop.dtos.album.AlbumRequestDTO;
-import nl.novi.vinylshop.dtos.artist.ArtistResponseDTO;
 import nl.novi.vinylshop.dtos.stock.StockResponseDTO;
 import nl.novi.vinylshop.entities.AlbumEntity;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,6 @@ public class AlbumExtendedDTOMapper {
         AlbumEntity entity = new AlbumEntity();
         entity.setTitle(dto.getTitle());
         entity.setReleaseYear(dto.getReleaseYear());
-        // zet genre/publisher als je die IDs hebt
         return entity;
     }
 

@@ -1,10 +1,12 @@
 package nl.novi.vinylshop.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.novi.vinylshop.dtos.publisher.PublisherRequestDTO;
 import nl.novi.vinylshop.dtos.publisher.PublisherResponseDTO;
-import nl.novi.vinylshop.entities.GenreEntity;
+import nl.novi.vinylshop.entities.AlbumEntity;
 import nl.novi.vinylshop.entities.PublisherEntity;
 import nl.novi.vinylshop.mappers.PublisherMapper;
+import nl.novi.vinylshop.repositories.AlbumRepository;
 import nl.novi.vinylshop.repositories.PublisherRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ public class PublisherService {
 
     private final PublisherRepository publisherRepository;
     private final PublisherMapper publisherMapper;
+    private final AlbumRepository albumRepository;
 
-    public PublisherService(PublisherRepository publisherRepository, PublisherMapper publisherMapper) {
+    public PublisherService(PublisherRepository publisherRepository, PublisherMapper publisherMapper, AlbumRepository albumRepository) {
         this.publisherRepository = publisherRepository;
         this.publisherMapper = publisherMapper;
+        this.albumRepository = albumRepository;
     }
 
     public List<PublisherResponseDTO> findAllPublishers() {
@@ -51,6 +55,24 @@ public class PublisherService {
 
     }
 
+    public void deletePublisher(Long id) {
+
+        Optional<PublisherEntity> optionalPublisher = publisherRepository.findById(id);
+
+        if (optionalPublisher.isEmpty()) {
+            throw new EntityNotFoundException("Publisher not found");
+        }
+
+        PublisherEntity publisher = optionalPublisher.get();
+
+        for (AlbumEntity album : publisher.getAlbums()) {
+            album.setPublisher(null);
+            albumRepository.save(album);
+        }
+
+        publisherRepository.delete(publisher);
+    }
+
     private PublisherEntity getPublisherEntity(Long id){
         Optional<PublisherEntity> publisherEntity = publisherRepository.findById(id);
         if (publisherEntity.isPresent()) {
@@ -59,11 +81,4 @@ public class PublisherService {
         return null;
     }
 
-    public void deletePublisher(Long id) {
-        try{
-            PublisherEntity existingPublisherEntity = getPublisherEntity(id);
-            publisherRepository.delete(existingPublisherEntity);
-        } catch (IndexOutOfBoundsException ex) {
-        }
-    }
 }

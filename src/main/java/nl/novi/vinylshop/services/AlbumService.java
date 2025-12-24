@@ -56,11 +56,22 @@ public class AlbumService {
     }
 
     public void deleteAlbum(Long id) {
-        try {
-            AlbumEntity existingAlbumEntity = getAlbumEntity(id);
-            albumRepository.delete(existingAlbumEntity);
-        } catch (IndexOutOfBoundsException ex) {
+
+        Optional<AlbumEntity> optionalAlbum = albumRepository.findById(id);
+
+        if (optionalAlbum.isEmpty()) {
+            throw new EntityNotFoundException("Album not found");
         }
+
+        AlbumEntity album = optionalAlbum.get();
+
+        if (album.getStockItems() != null && !album.getStockItems().isEmpty()) {
+            throw new IllegalStateException(
+                    "Album cannot be deleted because it still has stock"
+            );
+        }
+
+        albumRepository.delete(album);
     }
 
     public List<AlbumResponseDTO> findAllAlbums() {

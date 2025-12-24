@@ -17,9 +17,9 @@ VALUES (now(), now(), 'Mayhem', 2025 ,1, 2),
        (now(), now(), 'Origin of Love', 2012 ,1, 1);
 
 INSERT INTO stock(create_date, edit_date, condition, price, album_id, quantity)
-VALUES (now(), now(), 'Excellent', '40.00', 1, 40),
-       (now(), now(), 'Great', '10.00', 2, 20),
-       (now(), now(), 'Good', '13.99', 3, 30);
+VALUES (now(), now(), 'New', '40.00', 1, 20),
+       (now(), now(), 'New', '10.00', 2, 5),
+       (now(), now(), 'Good', '13.99', 3, 2);
 
 INSERT INTO albums_artists(album_id, artist_id)
 VALUES (1, 1), (2, 1), (2, 2), (3, 3);

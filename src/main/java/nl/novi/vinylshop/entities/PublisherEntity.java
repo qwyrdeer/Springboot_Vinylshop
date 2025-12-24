@@ -16,6 +16,13 @@ public class PublisherEntity extends BaseEntity {
     @OneToMany(mappedBy = "publisher")
     private Set<AlbumEntity> albums = new HashSet<>();
 
+    public Set<AlbumEntity> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Set<AlbumEntity> albums) {
+        this.albums = albums;
+    }
 
     public String getName() {
         return name;
